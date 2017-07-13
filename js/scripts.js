@@ -1,7 +1,73 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+jQuery(document).ready(function() {
+    jQuery('button[name=submit_vote]').on('click', function() {
+        var rate = jQuery('input[name=rate]:checked').val();
+        if (typeof rate == 'undefined') {
+            // disable submit empty rate
+            return false;
+        }
+    });
 
+    jQuery('input[type="file"]').on('change', function() {
+        var file = this.files[0];
+        var imagefile = file.type;
+        var match = ["image/jpeg", "image/png", "image/jpg"];
+        if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
+            return false;
+        } else {
+            var reader = new FileReader();
+            reader.imageWrap = jQuery(this).closest('.upload-wrap').find('img.media-file-preview');
+            reader.onload = voteImageIsLoaded;
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+    jQuery('.step-first .btn-custom').on('click', function(){
+        var rate = jQuery('input[name="rate"]:checked').val();
+        if (rate) {
+            jQuery('.step-first').hide();
+            jQuery('.step-last').show();
+        }   
+    });
 
+    jQuery('.switch input').on('change', function(){
+        if(this.checked)
+            jQuery('.if-notify').show();
+        else
+            jQuery('.if-notify').hide();
+    });
+
+    jQuery('.close-file').on('click', function(){
+        jQuery(this).closest('.file-wrap').find('img').hide();
+    });
+
+    statsPosition();
+});
+
+function voteImageIsLoaded(e) {
+    var image = new Image();
+    image.src = e.target.result;
+    image.onload = function() {
+        $imageWrap = e.target.imageWrap;
+        //$imageWrap.find('div.no-image').hide();
+        var imageElement = $imageWrap;
+        imageElement.attr('src', e.target.result).show();
+    };
+}
+
+function statsPosition() {
+  var yourRateWrap = jQuery('.rate-yours'),
+      curRateWrap = jQuery('.rate-current'),
+      yourRate = parseInt(jQuery('.rate-yours strong').text()),
+      currentRate = parseInt(jQuery('.rate-current strong').text());
+
+  jQuery('.number-wrap .number-radio').each(function() {
+    var curNumWrap = parseInt(jQuery(this).text());
+    if( curNumWrap == currentRate ){
+      jQuery(this).addClass('number-current');
+      jQuery(this).closest('.number-wrap').append(curRateWrap);
+    }
+    if( curNumWrap == yourRate ){
+      jQuery(this).addClass('number-yours');
+      jQuery(this).closest('.number-wrap').append(yourRateWrap);
+    }
+  });
+}

@@ -58,15 +58,14 @@
     <div class="container">
     <?php if ($action == 'blocked') : ?>
 
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+        <header class="vote-header text-center">
+            <div class="img-wrap img-circle inlined">
+                <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
             </div>
-            <div class="media-body">
-                <h4 class="media-heading"><?php echo $vote['name'] ?></h4>
-            </div>
-        </div>
-        <div class="row12">
+            <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+        </header>
+
+        <div class="text-center">
             <p>
                 At this moment we cannot accept rewiews for this. Please inform the person responsible.
             </p>
@@ -90,43 +89,71 @@
                         <input name="object" placeholder="Enter your 4-digit code" />
                     </li>
                     <li class="list-group-item">
-                        <button class="btn btn-success">Submit</button>
+                        <button class="btn-custom">Submit</button>
                     </li>
                 </ul>
             </form>
         </div>
 
     <?php elseif ($action == 'vote_added') : ?>
+        
+        <header class="vote-header text-center">
+            <div class="img-wrap img-circle inlined">
+                <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+            </div>
+            <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+        </header>
 
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+        <h3 class="text-center"><strong>Thank You For Your Feedback !</strong></h3>
+        
+        <div class="clearfix rate-result">
+            <div class="number-wrap">
+                <div class="number-radio">1</div>
             </div>
-            <div class="media-body">
-                <h4 class="media-heading"><?php echo $vote['name'] ?></h4>
+            <div class="number-wrap">
+                <div class="number-radio">2</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">3</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">4</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">5</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">6</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">7</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">8</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">9</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">10</div>
+            </div>
+            
+            <div class="rate-yours">
+                You Rated
+                <strong><?php echo $_POST['rate'] ?></strong>               
+            </div>
+
+            <div class="rate-current">
+                <strong><?php echo round($vote['avg_rate']/10, 1); ?></strong>
+                Current Average
             </div>
         </div>
-        <div class="row12">
-            <p>
-                Thank You for Your feedback!
-            </p>
-        </div>
-        <div class="alert alert-success" role="alert">
-            Your rate <?php echo $_POST['rate'] ?>
-        </div>
-        <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $vote['avg_rate'] ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $vote['avg_rate'] ?>%;">
-                <span class="sr-only">60% Complete</span>
-            </div>
-        </div>
-        <div class="alert alert-info" role="alert">
-            Current Average <?php echo round($vote['avg_rate']/10, 1); ?>
-        </div>
-        <div class="row12">
-            <p>
-                As you requested, the manager has been notified
-            </p>
-        </div>
+
+        <?php if (isset($_POST['notify_manager'])) : ?>
+            <h3 class="text-center">As you requested, the manager has been notified</h3>
+        <?php endif; ?>
+
+        <!-- button class="btn-custom">Close</button -->
 
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -145,124 +172,165 @@
 
     <?php elseif ($action == 'vote_review') : ?>
 
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+        <header class="vote-header text-center">
+            <div class="img-wrap img-circle inlined">
+                <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
             </div>
-            <div class="media-body">
-                <h4 class="media-heading"><?php echo $vote['name'] ?></h4>
+            <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+        </header>
+
+        <div class="clearfix rate-result">
+            <div class="number-wrap">
+                <div class="number-radio">1</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">2</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">3</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">4</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">5</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">6</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">7</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">8</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">9</div>
+            </div>
+            <div class="number-wrap">
+                <div class="number-radio">10</div>
+            </div>
+
+            <div class="rate-current">
+                <strong><?php echo round($vote['avg_rate']/10, 1); ?></strong>
+                Current Average
             </div>
         </div>
-        <div class="progress">
+
+<!--         <div class="progress">
             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $vote['avg_rate'] ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $vote['avg_rate'] ?>%;">
                 <span class="sr-only">60% Complete</span>
             </div>
-        </div>
-        <div class="alert alert-info" role="alert">
-            Current Average <?php echo round($vote['avg_rate']/10, 1); ?>
-        </div>
+        </div> -->
+        
 
     <?php elseif ($action == 'form_submit') : ?>
 
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+        <header class="vote-header text-center">
+            <div class="img-wrap img-circle inlined">
+                <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
             </div>
-            <div class="media-body">
-                <h4 class="media-heading"><?php echo $vote['name'] ?></h4>
-            </div>
-        </div>
+            <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+        </header>
+
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" name="nounce" value="<?php echo $nounce; ?>" />
-            <div class="row">
-                <div class="col-xs-12 col-sm-12">
-                    <h4>How do you rate your expirience?</h4>
+
+            <div class="step-first">            
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <h3><em>How do you rate your expirience?</em></h3>
+                    </div>
                 </div>
-                
+                <div class="clearfix">
+                    <div class="number-wrap">
+                        <input id="1" type="radio" name="rate" value=1>
+                        <label class="number-radio" for="1">1</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="2" type="radio" name="rate" value=2>
+                        <label class="number-radio" for="2">2</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="3" type="radio" name="rate" value=3>
+                        <label class="number-radio" for="3">3</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="4" type="radio" name="rate" value=4>
+                        <label class="number-radio" for="4">4</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="5" type="radio" name="rate" value=5>
+                        <label class="number-radio" for="5">5</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="6" type="radio" name="rate" value=6>
+                        <label class="number-radio" for="6">6</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="7" type="radio" name="rate" value=7>
+                        <label class="number-radio" for="7">7</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="8" type="radio" name="rate" value=8>
+                        <label class="number-radio" for="8">8</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="9" type="radio" name="rate" value=9>
+                        <label class="number-radio" for="9">9</label>
+                    </div>
+                    <div class="number-wrap">
+                        <input id="10" type="radio" name="rate" value=10>
+                        <label class="number-radio" for="10">10</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 text-left">
+                        Terrible
+                    </div>
+                    <div class="col-xs-6 text-center">
+                        Nothing special
+                    </div>
+                    <div class="col-xs-3 text-right">
+                        Amazing
+                    </div>
+                </div>
+                <span class="btn-custom rate-ready">Next</span>
             </div>
-            <div class="row">
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=1 />1
-                    </label>
+            
+            <div class="step-last">
+                <div class="upload-wrap">
+                    <div class="input-wrap">
+                        <textarea class="input" name="message" placeholder="Add a personal note"></textarea>
+
+                        <input id="media_file" class="btn-upload" name="media_file" type="file" />
+                        <label for="media_file">Choose a file</label>
+                    </div>
+                    <div class="file-wrap">
+                        <span class="close-file"></span>
+                        <img class="media-file-preview" style="display: none" />
+                    </div>
                 </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=2 />2
-                    </label>
+                <div class="switcher">
+                    <div class="switch inlined">
+                        <input id="notify_manager" name="notify_manager" type="checkbox" />
+                        <label for="notify_manager" class="slider"></label>
+                    </div>
+                    <span class="inlined">Notify the manager</span>
                 </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=3 />3
-                    </label>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=4 />4
-                    </label>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=5 />5
-                    </label>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=6 />6
-                    </label>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=7 />7
-                    </label>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=8 />8
-                    </label>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=9 />9
-                    </label>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <label class="rating">
-                        <input type="radio" name="rate" value=10 />10
-                    </label>
-                </div>
+                <div class="if-notify">
+                    <div class="input-wrap">
+                        <input class="input" name="user_name" placeholder="Name" />
+                    </div>
+                    <div class="input-wrap">
+                        <input class="input" name="user_room" placeholder="Room nr" />
+                    </div>
+                    <div class="input-wrap">
+                        <input class="input" name="user_info" placeholder="Contact phone or email" />
+                    </div>
+                </div>                
+                <button name="submit_vote" class="btn-custom">Submit</button>
             </div>
-            <div class="row">
-                <div class="col-xs-3 col-sm-3">
-                    Terrible
-                </div>
-                <div class="col-xs-5 col-sm-5">
-                    Nothing special
-                </div>
-                <div class="col-xs-2 col-sm-2 text-right">
-                    Amazing
-                </div>
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <textarea name="message" placeholder="Add a personal note"></textarea>
-                </li>
-                <li class="list-group-item">
-                    Upload photo
-                    <img class="media-file-preview" style="display:none" />
-                    <input name="media_file" type="file" />
-                </li>
-                <li class="list-group-item">
-                    <input name="notify_manager" type="checkbox" />
-                    Notify the manager
-                </li>
-                <li class="list-group-item">
-                    <input class="text" name="user_info" placeholder="Add contact email or phone" />
-                </li>
-                <li class="list-group-item">
-                    <button name="submit_vote" class="btn btn-success">Submit</button>
-                </li>
-            </ul>
         </form>
 
     <?php endif; ?>

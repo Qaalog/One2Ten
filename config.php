@@ -7,6 +7,7 @@ $config = array(
     'user_password' => 'L##3v3r4g3',
     'driver_type'   => 'sqlsrv',
     //
-    'webservice_url' => 'http://teamol.co/testap/',
+    //'webservice_url' => 'http://teamol.co/testap/',
+    'webservice_url' => 'http://tolws-dev.azurewebsites.net/',
 );
 
