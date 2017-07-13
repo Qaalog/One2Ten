@@ -56,9 +56,13 @@ class IRVotesManager {
                         $rate = $_POST['rate'];
                         $message = $_POST['message'];
                         $notifyManager = isset($_POST['notify_manager']) ? 1 : 0;
-                        $userInfo = isset($_POST['user_name']) ? "Name: {$_POST['user_name']};" : '';
-                        $userInfo .= isset($_POST['user_room']) ? "Room: {$_POST['user_room']};" : '';
-                        $userInfo .= isset($_POST['user_info']) ? "Contact: {$_POST['user_info']};" : '';
+                        $userInfo = '';
+                        if ($notifyManager) {
+                            $userInfo .= isset($_POST['user_name']) ? "Name: {$_POST['user_name']};" : '';
+                            $userInfo .= isset($_POST['user_room']) ? "Room: {$_POST['user_room']};" : '';
+                            $userInfo .= isset($_POST['user_info']) ? "Contact: {$_POST['user_info']};" : '';
+                        }
+
                         $data = array(
                             'object_id' => $this->_vote['id'],
                             'rate' => $rate,
