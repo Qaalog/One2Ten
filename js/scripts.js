@@ -64,10 +64,32 @@ function statsPosition() {
     if( curNumWrap == currentRate ){
       jQuery(this).addClass('number-current');
       jQuery(this).closest('.number-wrap').append(curRateWrap);
+      switch ( curNumWrap ) {
+       case 1:
+       case 2:
+        curRateWrap.addClass('to-left');
+        break;
+
+      case 9:
+      case 10:
+        curRateWrap.addClass('to-right');
+        break;  
+      }
     }
     if( curNumWrap == yourRate ){
       jQuery(this).addClass('number-yours');
       jQuery(this).closest('.number-wrap').append(yourRateWrap);
+      switch ( curNumWrap ) {
+       case 1:
+       case 2:
+        yourRateWrap.addClass('to-left');
+        break;
+
+      case 9:
+      case 10:
+        yourRateWrap.addClass('to-right');
+        break;  
+      }
     }
   });
 }

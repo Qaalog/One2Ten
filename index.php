@@ -59,9 +59,11 @@
     <?php if ($action == 'blocked') : ?>
 
         <header class="vote-header text-center">
+            <?php if ($vote['media_data']) : ?>
             <div class="img-wrap img-circle inlined">
                 <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
             </div>
+            <?php endif; ?>
             <h1 class="inlined"><?php echo $vote['name'] ?></h1>
         </header>
 
@@ -98,9 +100,11 @@
     <?php elseif ($action == 'vote_added') : ?>
         
         <header class="vote-header text-center">
+            <?php if ($vote['media_data']) : ?>
             <div class="img-wrap img-circle inlined">
                 <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
             </div>
+            <?php endif; ?>
             <h1 class="inlined"><?php echo $vote['name'] ?></h1>
         </header>
 
@@ -165,7 +169,7 @@
           ga('set', 'dimension1'/*entity*/,         '<?php echo $vote['catalog_key'] ?>' );
           ga('set', 'dimension2'/*'qrcode*/,        '<?php echo $vote['name'] ?>' );
           ga('set', 'dimension3'/*informManager*/,  '<?php echo isset($_POST['notify_manager']) ? 1 : 0 ?>' );
-          ga('set', 'metric1' /*rate*/,             '<?php echo $_POST['rate'] ?>' );
+          ga('set', 'metric1'   /*rate*/,           '<?php echo $_POST['rate'] ?>' );
           ga('send', 'pageview');
 
         </script>
@@ -173,9 +177,11 @@
     <?php elseif ($action == 'vote_review') : ?>
 
         <header class="vote-header text-center">
+            <?php if ($vote['media_data']) : ?>
             <div class="img-wrap img-circle inlined">
                 <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
             </div>
+            <?php endif; ?>
             <h1 class="inlined"><?php echo $vote['name'] ?></h1>
         </header>
 
@@ -227,9 +233,11 @@
     <?php elseif ($action == 'form_submit') : ?>
 
         <header class="vote-header text-center">
+            <?php if ($vote['media_data']) : ?>
             <div class="img-wrap img-circle inlined">
                 <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
             </div>
+            <?php endif; ?>
             <h1 class="inlined"><?php echo $vote['name'] ?></h1>
         </header>
 
