@@ -3,6 +3,18 @@ body {font-size: 16px}
 	display: inline-block;
 	vertical-align: middle;
 }
+.table-block {
+  display: table;
+  width: 100%;
+}
+.table-row {
+  display: table-row-group;
+}
+.table-col {
+  display: table-cell;
+  vertical-align: middle;
+}
+.optimal-width {width: 10px!important}
 .abs-c {
 	position: absolute;
 	top: 50%;
@@ -23,7 +35,7 @@ body {font-size: 16px}
 	max-width: 80%;
   min-width: 45%;
 }
-.vote-header {margin: 30px 0 50px}
+.vote-header {margin: 30px auto}
 .vote-header h1 {font-weight: bold}
 .vote-header .img-wrap {
 	width: 100px;
@@ -105,7 +117,8 @@ label.number-radio:hover,
 	border: 1px solid #595959;
 }
 textarea.input {
-	height: 100px;
+	height: 90px;
+  display: block;
 	padding-right: 70px;
 	resize: vertical;
 }
@@ -168,7 +181,7 @@ textarea.input {
   left: 0;
   top: 50%;
   margin-top: -12px;
-  background: #88d66c;
+  background: #ccc;
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 50%;
@@ -178,6 +191,7 @@ textarea.input {
 }
 .switch input:checked + .slider {background-color: #59a843}
 .switch input:checked + .slider:before {
+  background-color: #88d66c;
   -webkit-transform: translateX(21px);
   -ms-transform: translateX(21px);
   transform: translateX(21px);
@@ -232,7 +246,7 @@ textarea.input {
 
 .rate-result {
   position: relative;
-  margin: 100px 0;
+  margin: 80px 0;
 }
 .rate-current,
 .rate-yours {
@@ -337,4 +351,15 @@ textarea.input {
     left: auto;
     right: 1px;
   }
+  .vote-header {margin: 15px 0}
+  .vote-header h1 {font-size: 24px}
+  .vote-header .img-wrap {
+    width: 75px;
+    height: 75px;
+  }
+  h3 {
+    font-size: 14px;
+    margin-top: 0;
+  }
+  .btn-custom {margin: 20px 0}
 }

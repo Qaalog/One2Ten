@@ -13,7 +13,7 @@ GO
 
 DROP TABLE IF EXISTS [dbo].[Vote_Object_Rate];
 DROP TABLE IF EXISTS [dbo].[Vote_Object];
-DROP TABLE IF EXISTS [dbo].[Vote_Catalog_Config];
+DROP TABLE IF EXISTS [dbo].[Vote_User_Config];
 
 CREATE TABLE [dbo].[Vote_Object](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
@@ -21,10 +21,8 @@ CREATE TABLE [dbo].[Vote_Object](
 	[Media_Data] [nvarchar](max) NULL,
 	[Code] [nvarchar](8) NOT NULL,
 	[Qr_Code_Data] [nvarchar](max) NULL,
-	[Entity_Key] [char](50) NULL,
-	[Catalog_Key] [char](50) NULL,
 	[Status_Id] [int] NOT NULL DEFAULT 0,
-        [Update_User] [varchar](250) NULL,
+        [Owner_User] [varchar](250) NULL,
 	[DateTime_Created] [datetime] NOT NULL CONSTRAINT [DF_Vote_Object_DateTime_Created] DEFAULT (getdate()),
         CONSTRAINT [PK_Vote_Object] PRIMARY KEY CLUSTERED ([Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
@@ -39,14 +37,11 @@ CREATE TABLE [dbo].[Vote_Object_Rate](
 	[Media_Data] [nvarchar](max) NULL,
 	[Notify_Manager] [int] NOT NULL DEFAULT 0,
         [User_Info] [nvarchar](1023) NULL,
+	[User_Id] [nvarchar](63) NULL,
 	[DateTime_Created] [datetime] NOT NULL CONSTRAINT [DF_Vote_Object_Rate_DateTime_Created]  DEFAULT (getdate()),
         CONSTRAINT [PK_Vote_Object_Rate] PRIMARY KEY CLUSTERED ([Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
         CONSTRAINT [FK_Vote_Object_Id] FOREIGN KEY([Object_Id]) REFERENCES [dbo].[Vote_Object] ([Id])
 ) ON [PRIMARY]
-
-GO
-
-CREATE INDEX [IN_Catalog_Key] ON [dbo].[Vote_Object] ([Catalog_Key]);
 
 GO
 
@@ -55,10 +50,15 @@ INSERT [dbo].[Vote_Object] ([Name], [Code], [Media_Data], [Entity_Key], [Catalog
 
 GO
 
-CREATE TABLE [dbo].[Vote_Catalog_Config](
-	[Catalog_Key] [char](50) NOT NULL,
+CREATE TABLE [dbo].[Vote_User_Config](
+	[Owner_User] [varchar](250) NOT NULL,
 	[Manager_Email] [varchar](max) NULL,
-        CONSTRAINT [PK_Catalog_Key] PRIMARY KEY ([Catalog_Key])
+	[Entity_Key] [char](50) NULL,
+	[Catalog_Key] [char](50) NULL,
+	[Inform_If_Below] [smallint] NULL DEFAULT 3,
+	[Inform_If_Above] [smallint] NULL DEFAULT 7,
+	[Next_Vote_Period] [smallint] NULL,
+        CONSTRAINT [PK_Owner_User] PRIMARY KEY ([Owner_User])
 ) ON [PRIMARY]
 
 GO

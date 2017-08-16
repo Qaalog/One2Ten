@@ -2,6 +2,7 @@
     require_once dirname(__FILE__).'/config.php';
     require_once dirname(__FILE__).'/class/IRVotesManager.php';
 
+    session_cache_expire(60*24);
     session_start();
     try {
         $helper = new IRVotesManager($config);
@@ -55,16 +56,24 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="container text-center">
     <?php if ($action == 'blocked') : ?>
 
-        <header class="vote-header text-center">
-            <?php if ($vote['media_data']) : ?>
-            <div class="img-wrap img-circle inlined">
-                <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+        <header class="vote-header inlined text-left">
+          <div class="table-block">
+            <div class="table-row">
+              <?php if ($vote['media_data']) : ?>
+              <div class="table-col optimal-width">
+                <div class="img-wrap img-circle inlined">
+                  <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+                </div>
+              </div>            
+              <?php endif; ?>
+              <div class="table-col">
+                <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+              </div>
             </div>
-            <?php endif; ?>
-            <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+          </div>
         </header>
 
         <div class="text-center">
@@ -72,7 +81,7 @@
                 At this moment we cannot accept rewiews for this. Please inform the person responsible.
             </p>
             <p>
-                We are sorry for any inconvience!
+                We are sorry for any inconvenience!
             </p>
         </div>
 
@@ -99,13 +108,21 @@
 
     <?php elseif ($action == 'vote_added') : ?>
         
-        <header class="vote-header text-center">
-            <?php if ($vote['media_data']) : ?>
-            <div class="img-wrap img-circle inlined">
-                <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
-            </div>
-            <?php endif; ?>
-            <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+        <header class="vote-header inlined text-left">
+          <div class="table-block">
+            <div class="table-row">
+              <?php if ($vote['media_data']) : ?>
+              <div class="table-col optimal-width">
+                <div class="img-wrap img-circle inlined">
+                  <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+                </div>
+              </div>            
+              <?php endif; ?>
+              <div class="table-col">
+                <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+              </div>
+            </div>        
+          </div>
         </header>
 
         <h3 class="text-center"><strong>Thank You For Your Feedback !</strong></h3>
@@ -157,7 +174,7 @@
             <h3 class="text-center">As you requested, the manager has been notified</h3>
         <?php endif; ?>
 
-        <!-- button class="btn-custom">Close</button -->
+        <!-- <button class="btn-custom">Close</button> -->
 
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -170,20 +187,35 @@
           ga('set', 'dimension2'/*'qrcode*/,        '<?php echo $vote['name'] ?>' );
           ga('set', 'dimension3'/*informManager*/,  '<?php echo isset($_POST['notify_manager']) ? 1 : 0 ?>' );
           ga('set', 'metric1'   /*rate*/,           '<?php echo $_POST['rate'] ?>' );
+          ga('set', 'metric2'   /*rateNr*/,         1 );
           ga('send', 'pageview');
 
         </script>
 
     <?php elseif ($action == 'vote_review') : ?>
 
-        <header class="vote-header text-center">
-            <?php if ($vote['media_data']) : ?>
-            <div class="img-wrap img-circle inlined">
-                <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+        <header class="vote-header inlined text-left">
+          <div class="table-block">
+            <div class="table-row">
+              <?php if ($vote['media_data']) : ?>
+              <div class="table-col optimal-width">
+                <div class="img-wrap img-circle inlined">
+                  <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+                </div>
+              </div>            
+              <?php endif; ?>
+              <div class="table-col">
+                <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+              </div>
             </div>
-            <?php endif; ?>
-            <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+          </div>
         </header>
+
+        <div class="text-center">
+            <p>
+                <b>You have already reviewed this</b>
+            </p>
+        </div>
 
         <div class="clearfix rate-result">
             <div class="number-wrap">
@@ -217,28 +249,43 @@
                 <div class="number-radio">10</div>
             </div>
 
+            <?php if ($vote['last_rate']) : ?>
+            <div class="rate-yours">
+                You Rated
+                <strong><?php echo $vote['last_rate'] ?></strong>
+            </div>
+            <?php endif; ?>
+
             <div class="rate-current">
                 <strong><?php echo round($vote['avg_rate']/10, 1); ?></strong>
                 Current Average
             </div>
         </div>
 
-<!--         <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $vote['avg_rate'] ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $vote['avg_rate'] ?>%;">
-                <span class="sr-only">60% Complete</span>
-            </div>
-        </div> -->
+        <div class="text-center">
+            <p>
+                You can make a new review tomorrow.
+            </p>
+        </div>
         
 
     <?php elseif ($action == 'form_submit') : ?>
 
-        <header class="vote-header text-center">
-            <?php if ($vote['media_data']) : ?>
-            <div class="img-wrap img-circle inlined">
-                <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
-            </div>
-            <?php endif; ?>
-            <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+        <header class="vote-header inlined text-left">
+          <div class="table-block">
+            <div class="table-row">
+              <?php if ($vote['media_data']) : ?>
+              <div class="table-col optimal-width">              
+                <div class="img-wrap img-circle inlined">
+                  <img class="abs-c" src="<?php echo $vote['media_data'] ?>" alt="<?php echo $vote['name'] ?>">
+                </div>            
+              </div>
+              <?php endif; ?>
+              <div class="table-col">
+                <h1 class="inlined"><?php echo $vote['name'] ?></h1>
+              </div>
+            </div> 
+          </div>
         </header>
 
         <form method="post" enctype="multipart/form-data">
@@ -319,7 +366,7 @@
                         <img class="media-file-preview" style="display: none" />
                     </div>
                 </div>
-                <div class="switcher">
+                <div class="switcher text-left">
                     <div class="switch inlined">
                         <input id="notify_manager" name="notify_manager" type="checkbox" />
                         <label for="notify_manager" class="slider"></label>

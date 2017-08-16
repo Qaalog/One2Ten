@@ -21,6 +21,7 @@ class IRVotesManager {
     private $_config = array();
     private $_rateImageType;
     private $_rateImageData;
+    private $_sessionId;
 
     function __construct($config) {
         $this->_dataSource = new IRMSSqlDataSource($config);
@@ -30,6 +31,7 @@ class IRVotesManager {
         } else {
             throw new Exception('No db connection');
         }
+        $this->_sessionId = session_id();
         $this->_config = $config;
     }
 
@@ -69,6 +71,7 @@ class IRVotesManager {
                             'message' => $message,
                             'notify_manager' => $notifyManager,
                             'user_info' => $userInfo,
+                            'user_id' => $this->_sessionId,
                         );
                         if (is_uploaded_file($_FILES['media_file']['tmp_name'])) {
                             //copy($_FILES['media_file']['tmp_name'], 'd:/test1.jpeg');
@@ -120,11 +123,19 @@ class IRVotesManager {
         if ($object = $this->_dataSource->queryRow($tSql)) {
             $result = array_change_key_case( $object );
             if ($result['status_id'] == self::STATUS_ACTIVE) {
-                // get AVG
-                $tSql = "SELECT avg([Rate]*10) from [dbo].[Vote_Object_Rate] where [Object_Id] = {$result['id']}";
-                $result['avg_rate'] = $this->_dataSource->queryValue($tSql);
-                // get AVG
-                $tSql = "SELECT * from [dbo].[Vote_Catalog_Config] where [Catalog_Key] = '{$result['catalog_key']}'";
+                // get AVG & last rate
+                $tSql = 
+                    "SELECT avg([Rate]*10) avg_rate,
+                            (select top 1 [Rate] from [dbo].[Vote_Object_Rate] where [User_Id] is not null AND [User_Id] = '{$this->_sessionId}' AND [Object_Id] = ar.[Object_Id] order by id desc) last_rate,
+                            (select top 1 [DateTime_Created] from [dbo].[Vote_Object_Rate] where [User_Id] is not null AND [User_Id] = '{$this->_sessionId}' AND [Object_Id] = ar.[Object_Id] order by id desc) last_rate_date
+                       from [dbo].[Vote_Object_Rate] ar
+                       where [Object_Id] = {$result['id']}
+                       group by [Object_Id]";
+                $rateInfo = $this->_dataSource->queryRow($tSql);
+                $result['avg_rate'] = isset($rateInfo['avg_rate']) ? $rateInfo['avg_rate'] : 0;
+                $result['last_rate'] = isset($rateInfo['last_rate']) ? $rateInfo['last_rate'] : null;
+                // get Config
+                $tSql = "SELECT * from [dbo].[Vote_User_Config] where [Owner_User] = '{$result['owner_user']}'";
                 $result['vote_config'] = $this->_dataSource->queryRow($tSql);
                 $result['vote_config'] = is_array($result['vote_config']) ? array_change_key_case($result['vote_config']) : $result['vote_config'];
             }
@@ -146,9 +157,13 @@ class IRVotesManager {
     function notifyVoteSubscribers($vote, $rateRow) {
         $rateRow = array_change_key_case($rateRow);
         $rate = $rateRow['rate'];
-        $__entityKey = trim($vote['entity_key']);
-        $__catalogKey = trim($vote['catalog_key']);
-        if ($rate >= 8 && !empty($rateRow['message'])) {
+        $__entityKey = trim($vote['vote_config']['entity_key']);
+        $__catalogKey = trim($vote['vote_config']['catalog_key']);
+
+        $markInformIfAbove = (int)$vote['vote_config']['inform_if_above'];
+        $markInformIfBelow = (int)$vote['vote_config']['inform_if_below'];
+        if ($markInformIfAbove && $rate >= $markInformIfAbove && !empty($rateRow['message'])) {
+
             // create new post
             //    1) User wrote text, made no photo     --> Show the rate and the text
             //    2) User made photo, wrote no text     --> Dont create post
@@ -180,7 +195,8 @@ class IRVotesManager {
                 $response['temp'][] = $webService->lastError['message'];
             }
         }
-        if ($rate <= 4 || $rateRow['notify_manager'] == 1) {
+        if ( ($markInformIfBelow && $rate <= $markInformIfBelow) || $rateRow['notify_manager'] == 1) {
+
             // send email
             require_once dirname(__FILE__).'/QaalogWebService.php';
             $webService = new QaalogWebService($this->_config['webservice_url']);
