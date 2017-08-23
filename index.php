@@ -78,7 +78,7 @@
 
         <div class="text-center">
             <p>
-                At this moment we cannot accept rewiews for this. Please inform the person responsible.
+                At this moment we cannot accept reviews for this. Please inform the person responsible.
             </p>
             <p>
                 We are sorry for any inconvenience!
@@ -171,7 +171,9 @@
         </div>
 
         <?php if (isset($_POST['notify_manager'])) : ?>
-            <h3 class="text-center">As you requested, the manager has been notified</h3>
+          <div class="text-center">
+            <p>As you requested, the manager has been notified</p>
+           </div>
         <?php endif; ?>
 
         <!-- <button class="btn-custom">Close</button> -->
@@ -212,9 +214,7 @@
         </header>
 
         <div class="text-center">
-            <p>
-                <b>You have already reviewed this</b>
-            </p>
+            <h3><strong>You have already reviewed this</strong></h3>
         </div>
 
         <div class="clearfix rate-result">
@@ -262,11 +262,13 @@
             </div>
         </div>
 
+        <?php if ($vote['vote_config'] && $vote['vote_config']['next_vote_period'] && $vote['wait_time']>0) : ?>
         <div class="text-center">
             <p>
-                You can make a new review tomorrow.
+                You can make a new review in <?php echo $vote['wait_time']; ?> hour(s)
             </p>
         </div>
+        <?php endif; ?>
         
 
     <?php elseif ($action == 'form_submit') : ?>
@@ -294,7 +296,7 @@
             <div class="step-first">            
                 <div class="row">
                     <div class="col-xs-12 text-center">
-                        <h3><em>How do you rate your expirience?</em></h3>
+                        <h3><em>How do you rate your experience?</em></h3>
                     </div>
                 </div>
                 <div class="clearfix">

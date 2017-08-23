@@ -1,4 +1,9 @@
 jQuery(document).ready(function() {
+
+    if (!("ontouchstart" in document.documentElement)) {
+        document.documentElement.className += " no-touch";
+    }
+
     jQuery('button[name=submit_vote]').on('click', function() {
         var rate = jQuery('input[name=rate]:checked').val();
         if (typeof rate == 'undefined') {

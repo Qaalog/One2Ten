@@ -1,4 +1,11 @@
 body {font-size: 16px}
+input,
+textarea {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: none;
+  background: none;
+}
 .inlined {
 	display: inline-block;
 	vertical-align: middle;
@@ -46,7 +53,8 @@ body {font-size: 16px}
   float: left;
   width: 10%;
   color: #000;
-  margin: 15px 0;
+  margin: 15px 0 2px;
+  font-size:  16px;
   border: 1px solid #595959;
   border-width: 1px 1px 1px 0;
   text-align: center;
@@ -72,7 +80,7 @@ body {font-size: 16px}
 }
 label.number-radio {cursor: pointer}
 .number-yours,
-label.number-radio:hover,
+.no-touch label.number-radio:hover,
 .number-wrap input:checked + label {
 	color: #fff;
   font-weight: bold;
@@ -101,7 +109,7 @@ label.number-radio:hover,
 	-webkit-appearance: none;
 	cursor: pointer;
 }
-.btn-custom:hover,
+.no-touch .btn-custom:hover,
 .btn-custom.disabled {background: #93c47d}
 .step-last,
 .if-notify {display: none}
@@ -123,20 +131,20 @@ textarea.input {
 	resize: vertical;
 }
 .input::-webkit-input-placeholder {
-  color: #000;
+  color: #999;
   font-style: italic;
 }
 .input::-moz-placeholder {
-  color: #000;
+  color: #999;
   opacity: 1;
   font-style: italic;
 }
 .input:-ms-input-placeholder {
-  color: #000;
+  color: #999;
   font-style: italic;
 }
 .input:-moz-placeholder {
-  color: #000;
+  color: #999;
   opacity: 1;
   font-style: italic;
 }
@@ -148,8 +156,11 @@ textarea.input {
 	-moz-box-shadow: 0 0 5px 1px #aede98;
 	-webkit-box-shadow: 0 0 5px 1px #aede98;
 }
-.switcher {margin: 30px 0 10px}
-.switcher span {line-height: 24px}
+.switcher {margin: 0 0 10px}
+.switcher span {
+	font-size: 18px;
+	line-height: 24px;
+}
 .switch {
   position: relative;
 	width: 45px;
@@ -217,14 +228,14 @@ textarea.input {
   white-space: nowrap;
 }
 .btn-upload:focus + label,
-.btn-upload + label:hover {
+.no-touch .btn-upload + label:hover {
 	cursor: pointer;
   opacity: .6;
 }
 .file-wrap {
 	overflow: hidden;
 	position: relative;
-	display: inline-block;
+	display: block;
 }
 .media-file-preview {
 	display: block;
@@ -242,7 +253,7 @@ textarea.input {
   background-size: 100% auto;
   cursor: pointer;
 }
-.close-file:hover {opacity: 1}
+.no-touch .close-file:hover {opacity: 1}
 
 .rate-result {
   position: relative;
@@ -311,6 +322,8 @@ textarea.input {
 }
 
 @media screen and (max-width: 479px) {
+	body {font-size: 13px}
+	.input {font-size:  15px}
   .rate-current,
   .rate-yours {font-size: 13px}
   .rate-current.to-left,
@@ -357,9 +370,6 @@ textarea.input {
     width: 75px;
     height: 75px;
   }
-  h3 {
-    font-size: 14px;
-    margin-top: 0;
-  }
+  h3 {font-size: 18px}
   .btn-custom {margin: 20px 0}
 }

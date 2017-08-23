@@ -100,7 +100,7 @@ class IRVotesManager {
                             
                     } else {
                         
-                        if ($_SESSION[$sessionKey] == $this->_sessionValue) {
+                        if ($this->_vote['wait_time']>0) {
                             $result = 'vote_review';
                         } else {
                             $result = 'form_submit';
@@ -123,21 +123,25 @@ class IRVotesManager {
         if ($object = $this->_dataSource->queryRow($tSql)) {
             $result = array_change_key_case( $object );
             if ($result['status_id'] == self::STATUS_ACTIVE) {
+                // get Config
+                $tSql = "SELECT * from [dbo].[Vote_User_Config] where [Owner_User] = '{$result['owner_user']}'";
+                $result['vote_config'] = $this->_dataSource->queryRow($tSql);
+                $result['vote_config'] = is_array($result['vote_config']) ? array_change_key_case($result['vote_config']) : $result['vote_config'];
                 // get AVG & last rate
+                $nextVotePeriod = isset($result['vote_config']) && isset($result['vote_config']['next_vote_period']) ? (int)$result['vote_config']['next_vote_period'] : 0;
                 $tSql = 
                     "SELECT avg([Rate]*10) avg_rate,
                             (select top 1 [Rate] from [dbo].[Vote_Object_Rate] where [User_Id] is not null AND [User_Id] = '{$this->_sessionId}' AND [Object_Id] = ar.[Object_Id] order by id desc) last_rate,
-                            (select top 1 [DateTime_Created] from [dbo].[Vote_Object_Rate] where [User_Id] is not null AND [User_Id] = '{$this->_sessionId}' AND [Object_Id] = ar.[Object_Id] order by id desc) last_rate_date
+                            (select top 1 [DateTime_Created] from [dbo].[Vote_Object_Rate] where [User_Id] is not null AND [User_Id] = '{$this->_sessionId}' AND [Object_Id] = ar.[Object_Id] order by id desc) last_rate_date,
+                            (select top 1 DATEDIFF( minute, SYSDATETIME(), dateadd(hour, {$nextVotePeriod}, [DateTime_Created])) from [dbo].[Vote_Object_Rate] where [User_Id] is not null AND [User_Id] = '{$this->_sessionId}' AND [Object_Id] = ar.[Object_Id] order by id desc) wait_time
                        from [dbo].[Vote_Object_Rate] ar
                        where [Object_Id] = {$result['id']}
                        group by [Object_Id]";
                 $rateInfo = $this->_dataSource->queryRow($tSql);
                 $result['avg_rate'] = isset($rateInfo['avg_rate']) ? $rateInfo['avg_rate'] : 0;
                 $result['last_rate'] = isset($rateInfo['last_rate']) ? $rateInfo['last_rate'] : null;
-                // get Config
-                $tSql = "SELECT * from [dbo].[Vote_User_Config] where [Owner_User] = '{$result['owner_user']}'";
-                $result['vote_config'] = $this->_dataSource->queryRow($tSql);
-                $result['vote_config'] = is_array($result['vote_config']) ? array_change_key_case($result['vote_config']) : $result['vote_config'];
+                $result['wait_time'] = isset($rateInfo['wait_time']) ? max($rateInfo['wait_time']/60, 0) : 0;
+                $result['wait_time'] = ceil($result['wait_time']);
             }
         }
         return $result;
