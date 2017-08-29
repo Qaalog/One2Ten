@@ -55,8 +55,8 @@
     <script src="js/scripts.js"></script>
 </head>
 <body>
-
-    <div class="container text-center">
+    <div id="no-js">Please enable JavaScript in your browser</div>
+    <div class="container text-center" style="display: none;">
     <?php if ($action == 'blocked') : ?>
 
         <header class="vote-header inlined text-left">
@@ -360,7 +360,7 @@
                     <div class="input-wrap">
                         <textarea class="input" name="message" placeholder="Add a personal note"></textarea>
 
-                        <input id="media_file" class="btn-upload" name="media_file" type="file" />
+                        <input id="media_file" class="btn-upload" name="media_file" type="file" accept="image/*" capture />
                         <label for="media_file">Choose a file</label>
                     </div>
                     <div class="file-wrap">

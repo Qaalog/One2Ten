@@ -1,10 +1,13 @@
 jQuery(document).ready(function() {
 
+    jQuery("div#no-js").hide();
+    jQuery("div.container").show();
+
     if (!("ontouchstart" in document.documentElement)) {
         document.documentElement.className += " no-touch";
     }
 
-    jQuery('button[name=submit_vote]').on('click', function() {
+    jQuery('button[name=submit_vote]').on('click touchend', function() {
         var rate = jQuery('input[name=rate]:checked').val();
         if (typeof rate == 'undefined') {
             // disable submit empty rate
@@ -40,7 +43,7 @@ jQuery(document).ready(function() {
             jQuery('.if-notify').hide();
     });
 
-    jQuery('.close-file').on('click', function(){
+    jQuery('.close-file').on('click touchend', function(){
         jQuery(this).closest('.file-wrap').find('img').hide();
     });
 
