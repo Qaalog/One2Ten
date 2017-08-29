@@ -185,7 +185,7 @@
           })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
           ga('create', 'UA-101739744-1', 'auto');
-          ga('set', 'dimension1'/*entity*/,         '<?php echo $vote['catalog_key'] ?>' );
+          ga('set', 'dimension1'/*entity*/,         '<?php echo $vote['owner_user'] ?>' );
           ga('set', 'dimension2'/*'qrcode*/,        '<?php echo $vote['name'] ?>' );
           ga('set', 'dimension3'/*informManager*/,  '<?php echo isset($_POST['notify_manager']) ? 1 : 0 ?>' );
           ga('set', 'metric1'   /*rate*/,           '<?php echo $_POST['rate'] ?>' );
