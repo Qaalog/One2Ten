@@ -1,5 +1,7 @@
 <?php
 
+$envGaCompanyId = getenv("ga_company_id");
+
 $envDbServer = getenv("webservice_db_server");
 $envDbName   = getenv("webservice_db_name");
 $envDbUser   = getenv("webservice_db_user");
@@ -15,5 +17,6 @@ $config = array(
     //
     //'webservice_url' => 'http://teamol.co/testap/',
     'webservice_url' => empty($envWebserviceUrl) ? 'http://tolws-dev.azurewebsites.net/' : $envWebserviceUrl,
+    'ga_company_id'  => empty($envGaCompanyId) ? 'UA-101739744-1' : $envGaCompanyId,
 );
 

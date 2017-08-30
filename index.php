@@ -347,7 +347,7 @@
                         Terrible
                     </div>
                     <div class="col-xs-6 text-center">
-                        Nothing special
+                        Average
                     </div>
                     <div class="col-xs-3 text-right">
                         Amazing
