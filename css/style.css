@@ -226,7 +226,6 @@ textarea.input {
   overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
-  display: none;
 }
 .btn-upload:focus + label,
 .no-touch .btn-upload + label:hover {
