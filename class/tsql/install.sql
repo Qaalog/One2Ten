@@ -59,6 +59,7 @@ CREATE TABLE [dbo].[Vote_User_Config](
 	[Inform_If_Above] [smallint] NULL DEFAULT 7,
 	[Next_Vote_Period] [smallint] NULL,
         [Owner_Key] [char](50) NULL,
+	[Owner_Login] [nvarchar](60) NULL,
         CONSTRAINT [PK_Owner_User] PRIMARY KEY ([Owner_User])
 ) ON [PRIMARY]
 
