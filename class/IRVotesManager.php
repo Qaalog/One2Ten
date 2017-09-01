@@ -21,6 +21,7 @@ class IRVotesManager {
     private $_config = array();
     private $_rateImageType;
     private $_rateImageData;
+    private $_rateImage;
     private $_sessionId;
 
     function __construct($config) {
@@ -77,11 +78,12 @@ class IRVotesManager {
                             //copy($_FILES['media_file']['tmp_name'], 'd:/test1.jpeg');
                             $check = getimagesize($_FILES["media_file"]["tmp_name"]);
                             if ($check !== false) {
+                                $this->_rateImage = $_FILES['media_file'];
                                 $this->_rateImageType = $_FILES['media_file']['type'];
                                 $type = $this->_rateImageType;
                                 $imageData = file_get_contents($_FILES['media_file']['tmp_name']);
                                 $this->_rateImageData = base64_encode($imageData);
-                                $base64 = 'data:image/' . $type . ';base64,' . $this->_rateImageData;
+                                $base64 = 'data:' . $type . ';base64,' . $this->_rateImageData;
                                 $data['media_data'] = $base64;
                             }
                         }
@@ -154,7 +156,7 @@ class IRVotesManager {
     }
 
     protected function addRate($data) {
-        //var_dump()
+
         return $this->_dataSource->setTable('[dbo].[Vote_Object_Rate]')->createRecord($data, true);
     }
 
@@ -163,7 +165,6 @@ class IRVotesManager {
         $rate = $rateRow['rate'];
         $__entityKey = trim($vote['vote_config']['entity_key']);
         $__catalogKey = trim($vote['vote_config']['catalog_key']);
-
         $markInformIfAbove = (int)$vote['vote_config']['inform_if_above'];
         $markInformIfBelow = (int)$vote['vote_config']['inform_if_below'];
         if ($markInformIfAbove && $rate >= $markInformIfAbove && !empty($rateRow['message'])) {
@@ -192,6 +193,7 @@ class IRVotesManager {
                     'mime_type' => $this->_rateImageType,
                 );
             }
+            //var_dump($params);die();
             if ( $result = $webService->sendData('put', $url, $params) ) {
                 $response['temp'][] = 'Send post executed';
             } else {
@@ -202,29 +204,89 @@ class IRVotesManager {
         if ( ($markInformIfBelow && $rate <= $markInformIfBelow) || $rateRow['notify_manager'] == 1) {
 
             // send email
-            require_once dirname(__FILE__).'/QaalogWebService.php';
-            $webService = new QaalogWebService($this->_config['webservice_url']);
-
-            $url = "user/sendMail?__entityKey={$__entityKey}&__catalogKey={$__catalogKey}";
-            //var_dump($url);
             $text = "The place '{$vote['name']}' was rated by user on One2Ten<br/><br/>"
                   . " User rate:<br/>"
                   . "  - rate: {$rate}<br/>"
                   . "  - message: {$rateRow['message']}<br/>"
                   . " User info: {$rateRow['user_info']}<br/>";
-            if ($rateRow['media_data'] > '') {
-                $text .= "<img src='{$rateRow['media_data']}' />";
-            }
             $params = array(
                 'email' => $vote['vote_config']['manager_email'],
-                'text' => $text,
+                'text'  => $text,
+                'subject' => $vote['name'].' - review notification',
             );
-            if ( $result = $webService->sendData('post', $url, $params) ) {
+            if ($rateRow['media_data'] > '') {
+                //$text .= "<img src='{$rateRow['media_data']}' />";
+                $params['embed_file'] = array(
+                    'name' => $this->_rateImage['name'],
+                    'path' => $this->_rateImage['tmp_name'],
+                );
+            }
+            if ( $result = $this->sendMail($params) ) {
                 // 'Send mail executed';
             } else {
                 //$response['errors'][] = $webService->lastError['message'];
                 //$response['temp'][] = $webService->lastError['message'];
             }
+        }
+    }
+
+    function sendMail($params) {
+        $email = isset($params['email']) ? $params['email'] : '';
+        $emails = explode(',', $email);
+        foreach ($emails as $key=>&$email) {
+            $email = trim($email);
+            if (empty($email)) {
+                unset($emails[$key]);
+            }
+        }
+        $text = isset($params['text']) ? $params['text'] : null;
+        $subject = isset($params['subject']) ? $params['subject'] : $this->_config['mail']['subject'];
+        if (!empty($emails) && $text) {
+            $username = $this->_config['mail']['smtp']['username'];
+            $password = $this->_config['mail']['smtp']['password'];
+
+            require_once (dirname(__FILE__)."/3rdparty/phpmailer/class.phpmailer.php");
+
+            $mail = new PHPMailer();
+
+            $mail->IsSMTP();                // set mailer to use SMTP
+            $mail->SMTPAuth = true;         // turn on SMTP authentication
+            $mail->SMTPSecure = "tls";
+            $mail->Host = $this->_config['mail']['smtp']['hostname']; // specify main and backup server
+            $mail->Port = $this->_config['mail']['smtp']['port'];
+            $mail->Username = $username;    // SMTP username
+            $mail->Password = $password;    // SMTP password
+            $mail->CharSet = 'UTF-8';
+
+            $mail->From = $this->_config['mail']['from'];
+            $mail->FromName = $this->_config['mail']['fromName'];
+            foreach($emails as $email) {
+                $mail->AddAddress( $email, '' );
+            }
+            if ($email = $this->_config['mail']['admin-mail']) {
+                $mail->addBCC( $email, '' );
+            }
+
+            if (isset($params['embed_file'])) {
+                $mail->addAttachment($params['embed_file']['path'], $params['embed_file']['name']);
+            }
+
+            $mail->WordWrap = 50;                                 // set word wrap to 50 characters
+            $mail->IsHTML(true);                                  // set email format to HTML
+
+            $mail->Subject = $subject;
+            $mail->Body    = $text;
+            $mail->AltBody = strip_tags($text);
+
+            if ($mail->Send()) {
+                //br()->log()->writeLn('New mail sent to ' . implode(',', $emails));
+                return array( 'mail_sent' => 1 );
+            } else {
+                $error = 'Mailer Error: ' . $mail->ErrorInfo;
+                throw new Exception( $error );
+            }
+        } else {
+            throw new Exception('We can not send mail because mail address or text is empty');
         }
     }
 }
