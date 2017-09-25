@@ -24,6 +24,7 @@ CREATE TABLE [dbo].[Vote_Object](
 	[Status_Id] [int] NOT NULL DEFAULT 0,
         [Owner_User] [varchar](250) NULL,
 	[DateTime_Created] [datetime] NOT NULL CONSTRAINT [DF_Vote_Object_DateTime_Created] DEFAULT (getdate()),
+        [Tag_Words] [nvarchar](127) NULL,
         CONSTRAINT [PK_Vote_Object] PRIMARY KEY CLUSTERED ([Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -39,6 +40,7 @@ CREATE TABLE [dbo].[Vote_Object_Rate](
         [User_Info] [nvarchar](1023) NULL,
 	[User_Id] [nvarchar](63) NULL,
 	[DateTime_Created] [datetime] NOT NULL CONSTRAINT [DF_Vote_Object_Rate_DateTime_Created]  DEFAULT (getdate()),
+        [Tag] [nvarchar](31) NULL,
         CONSTRAINT [PK_Vote_Object_Rate] PRIMARY KEY CLUSTERED ([Id] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
         CONSTRAINT [FK_Vote_Object_Id] FOREIGN KEY([Object_Id]) REFERENCES [dbo].[Vote_Object] ([Id])
 ) ON [PRIMARY]

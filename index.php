@@ -354,7 +354,8 @@
                         Amazing
                     </div>
                 </div>
-                <span class="btn-custom rate-ready">Next</span>
+                <span class="btn-custom add-rate-comment">Leave comment</span>
+                <span class="btn-custom rate-ready">Finish</span>
             </div>
             
             <div class="step-last">
