@@ -233,7 +233,7 @@ class IRVotesManager {
     function sendMail($params) {
         $email = isset($params['email']) ? $params['email'] : '';
         $emails = explode(',', $email);
-        foreach ($emails as $key=>&$email) {
+        foreach ($emails as $key=>$email) {
             $email = trim($email);
             if (empty($email)) {
                 unset($emails[$key]);

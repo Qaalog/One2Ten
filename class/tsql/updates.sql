@@ -5,6 +5,7 @@ ALTER TABLE [dbo].[Vote_User_Config]
 ALTER TABLE [dbo].[Vote_User_Config]
    ADD [Owner_Login] [nvarchar](60) NULL;
 
+
 /* 25.09.2017 */
 ALTER TABLE [dbo].[Vote_Object]
    ADD [Tag_Words] [nvarchar](127) NULL;
@@ -14,4 +15,5 @@ ALTER TABLE [dbo].[Vote_Object_Rate]
 
 ALTER TABLE [dbo].[Vote_User_Config]
    ADD [Question_If_Below] [smallint] NULL DEFAULT 3,
-       [Question_If_Above] [smallint] NULL DEFAULT 7;
+       [Question_If_Above] [smallint] NULL DEFAULT 7,
+       [Report_Id] [nvarchar](63) NULL;

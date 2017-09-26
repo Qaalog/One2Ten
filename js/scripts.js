@@ -28,12 +28,18 @@ jQuery(document).ready(function() {
             reader.readAsDataURL(this.files[0]);
         }
     });
-    jQuery('.step-first .btn-custom').on('click', function(){
+    jQuery('.step-first .btn-custom.add-rate-comment').on('click', function(){
         var rate = jQuery('input[name="rate"]:checked').val();
         if (rate) {
             jQuery('.step-first').hide();
             jQuery('.step-last').show();
         }   
+    });
+    jQuery('.step-first .btn-custom.rate-ready').on('click', function(){
+        var rate = jQuery('input[name="rate"]:checked').val();
+        if (rate) {
+            jQuery(this).closest('form').find('button[name=submit_vote]').trigger('click');
+        }
     });
 
     jQuery('.switch input').on('change', function(){
