@@ -53,7 +53,13 @@ jQuery(document).ready(function() {
         jQuery(this).closest('.file-wrap').find('img').hide();
     });
 
+    jQuery('input[name="rate"]').on('change', function(){
+        var rate = parseInt(jQuery(this).val());
+        updateQuestionDiv(rate);
+    });
+
     statsPosition();
+    updateQuestionDiv(0);
 });
 
 function voteImageIsLoaded(e) {
@@ -106,4 +112,26 @@ function statsPosition() {
       }
     }
   });
+}
+
+function updateQuestionDiv(rate) {
+    var $div = jQuery('.step-tags');
+    var $tags = $div.find('.tag-wrap');
+    var positiveRate = parseInt( $div.find('h3.positive').data('rate') );
+    var negativeRate = parseInt( $div.find('h3.negative').data('rate') );
+    if (rate && rate>0 && $tags.length && (positiveRate || negativeRate)) {
+        $div.find('h3').hide();
+        if (positiveRate && rate >= positiveRate) {
+            $div.find('h3.positive').show();
+            $div.show();
+        } else if (negativeRate && rate <= negativeRate) {
+            $div.find('h3.negative').show();
+            $div.show();
+        } else {
+            $div.hide();
+            $tags.val('');
+        }
+    } else {
+        $div.hide();
+    }
 }

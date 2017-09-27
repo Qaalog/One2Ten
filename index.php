@@ -189,6 +189,7 @@
           ga('set',  'dimension2'/*qrcode*/,        '<?php echo $vote['name'] ?>' );
           //ga('set',  'dimension3'/*informManager*/, '<?php echo isset($_POST['notify_manager']) ? 1 : 0 ?>' );
           ga('set',  'dimension4'/*username*/,      '<?php echo $vote['vote_config']['owner_login'] ?>' );
+          //ga('set',  'dimension5'/*tag*/,           '<?php echo $_POST['tag'] ?>' );
           ga('set',  'metric1'   /*rate*/,          '<?php echo $_POST['rate'] ?>' );
           ga('set',  'metric2'   /*rateNr*/,        1 );
           ga('set',  'metric3'   /*informManager*/, '<?php echo isset($_POST['notify_manager']) ? 1 : 0 ?>' );
@@ -354,10 +355,30 @@
                         Amazing
                     </div>
                 </div>
+
+                <?php if (isset($vote['tags']) && is_array($vote['tags'])) : ?>
+                <div  class="step-tags" style="display: none1;">
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <h3 class="positive" data-rate="<?php echo $vote['vote_config']['question_if_above']; ?>"><em>What you liked most?</em></h3>
+                            <h3 class="negative" data-rate="<?php echo $vote['vote_config']['question_if_below']; ?>"><em>What you liked less?</em></h3>
+                        </div>
+                    </div>
+                    <?php foreach($vote['tags'] as $key=>$tag) : ?>
+                        <div class="tag-wrap">
+                            <input id="tag_<?php echo $key; ?>" type="radio" name="tag" value="<?php echo $tag; ?>">
+                            <label class="number-radio tag-radio" for="tag_<?php echo $key; ?>"><?php echo $tag; ?></label>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+
                 <span class="btn-custom add-rate-comment">Leave comment</span>
                 <span class="btn-custom rate-ready">Finish</span>
             </div>
             
+                
+
             <div class="step-last">
                 <div class="upload-wrap">
                     <div class="input-wrap">

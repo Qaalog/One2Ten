@@ -58,6 +58,7 @@ class IRVotesManager {
                         $nounce = $_POST['nounce'];
                         $rate = $_POST['rate'];
                         $message = $_POST['message'];
+                        $tag = $_POST['tag'];
                         $notifyManager = isset($_POST['notify_manager']) ? 1 : 0;
                         $userInfo = '';
                         if ($notifyManager) {
@@ -73,6 +74,7 @@ class IRVotesManager {
                             'notify_manager' => $notifyManager,
                             'user_info' => $userInfo,
                             'user_id' => $this->_sessionId,
+                            'tag' => $tag,
                         );
                         if (is_uploaded_file($_FILES['media_file']['tmp_name'])) {
                             //copy($_FILES['media_file']['tmp_name'], 'd:/test1.jpeg');
@@ -144,6 +146,16 @@ class IRVotesManager {
                 $result['last_rate'] = isset($rateInfo['last_rate']) ? $rateInfo['last_rate'] : null;
                 $result['wait_time'] = isset($rateInfo['wait_time']) ? max($rateInfo['wait_time']/60, 0) : 0;
                 $result['wait_time'] = ceil($result['wait_time']);
+
+                $tags = array();
+                if (isset($result['tag_words']) && trim($result['tag_words']) > '') {
+                    foreach(explode(',', $result['tag_words']) as $tag) {
+                        if (trim($tag) > '') {
+                            $tags[] = trim($tag);
+                        }
+                    }
+                }
+                $result['tags'] = $tags;
             }
         }
         return $result;
@@ -249,13 +261,16 @@ class IRVotesManager {
 
             $mail = new PHPMailer();
 
-            $mail->IsSMTP();                // set mailer to use SMTP
-            $mail->SMTPAuth = true;         // turn on SMTP authentication
-            $mail->SMTPSecure = "tls";
-            $mail->Host = $this->_config['mail']['smtp']['hostname']; // specify main and backup server
-            $mail->Port = $this->_config['mail']['smtp']['port'];
-            $mail->Username = $username;    // SMTP username
-            $mail->Password = $password;    // SMTP password
+            if (isset($this->_config['mail']['smtp'])) {
+                $mail->IsSMTP();                // set mailer to use SMTP
+                $mail->SMTPAuth = true;         // turn on SMTP authentication
+                $mail->SMTPSecure = "tls";
+                $mail->Host = $this->_config['mail']['smtp']['hostname']; // specify main and backup server
+                $mail->Port = $this->_config['mail']['smtp']['port'];
+                $mail->Username = $username;    // SMTP username
+                $mail->Password = $password;    // SMTP password
+            }
+                
             $mail->CharSet = 'UTF-8';
 
             $mail->From = $this->_config['mail']['from'];
@@ -283,10 +298,11 @@ class IRVotesManager {
                 return array( 'mail_sent' => 1 );
             } else {
                 $error = 'Mailer Error: ' . $mail->ErrorInfo;
-                throw new Exception( $error );
+                print_r($error);
+                //throw new Exception( $error );
             }
         } else {
-            throw new Exception('We can not send mail because mail address or text is empty');
+            //throw new Exception('We can not send mail because mail address or text is empty');
         }
     }
 }

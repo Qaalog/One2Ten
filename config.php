@@ -24,11 +24,16 @@ $config = array(
         'fromName' => 'noreply',
         'subject' => 'smtp.gmail.com',
         'smtp' => array(
+//            'hostname' => 'smtp.gmail.com',
+//            'port'      => '587',
+//            'username' => 'support@leverage.pt',
+//            'password' => 'L!!3v3r4g3',
             'hostname' => 'smtp.sendgrid.net',
-            'port'      => '25',
+            'port'     => '25',
             'username' => 'azure_6ec966c95ca3098f1b90099cc7225c0e@azure.com',
             'password' => 'L##3v3r4g3',
         ),
+        'admin-mail' => 'o.v.lukashov@gmail.com',
     ),
 );
 

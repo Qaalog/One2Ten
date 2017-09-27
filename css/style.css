@@ -373,3 +373,7 @@ textarea.input {
   h3 {font-size: 18px}
   .btn-custom {margin: 20px 0}
 }
+
+label.number-radio.tag-radio {
+    display: inline-block;
+}
