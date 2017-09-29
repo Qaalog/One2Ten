@@ -189,7 +189,7 @@
           ga('set',  'dimension2'/*qrcode*/,        '<?php echo $vote['name'] ?>' );
           //ga('set',  'dimension3'/*informManager*/, '<?php echo isset($_POST['notify_manager']) ? 1 : 0 ?>' );
           ga('set',  'dimension4'/*username*/,      '<?php echo $vote['vote_config']['owner_login'] ?>' );
-          //ga('set',  'dimension5'/*tag*/,           '<?php echo $_POST['tag'] ?>' );
+          ga('set',  'dimension5'/*tag*/,           '<?php echo $_POST['tag'] ?>' );
           ga('set',  'metric1'   /*rate*/,          '<?php echo $_POST['rate'] ?>' );
           ga('set',  'metric2'   /*rateNr*/,        1 );
           ga('set',  'metric3'   /*informManager*/, '<?php echo isset($_POST['notify_manager']) ? 1 : 0 ?>' );
@@ -372,12 +372,16 @@
                     <?php endforeach; ?>
                 </div>
                 <?php endif; ?>
-
-                <span class="btn-custom add-rate-comment">Leave comment</span>
-                <span class="btn-custom rate-ready">Finish</span>
+                <div class="row">
+                    <div class="btn-block">
+                        <div class="btn-block-inner">
+                            <span class="btn-custom add-rate-comment inactive">Leave comment</span>
+                            <span class="btn-custom rate-ready inactive">Finish</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-                
+
 
             <div class="step-last">
                 <div class="upload-wrap">
@@ -401,16 +405,16 @@
                 </div>
                 <div class="if-notify">
                     <div class="input-wrap">
-                        <input class="input" name="user_name" placeholder="Name" />
+                        <input class="input" name="user_name" placeholder="*Name" />
                     </div>
                     <div class="input-wrap">
-                        <input class="input" name="user_room" placeholder="Room nr" />
+                        <input class="input" name="user_info" placeholder="*Phone or Email" />
                     </div>
                     <div class="input-wrap">
-                        <input class="input" name="user_info" placeholder="Contact phone or email" />
+                        <input class="input" name="user_room" placeholder="Customer nr / Room nr (optional)" />
                     </div>
                 </div>                
-                <button name="submit_vote" class="btn-custom">Submit</button>
+                <button name="submit_vote" class="btn-custom">Finish</button>
             </div>
         </form>
 

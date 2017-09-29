@@ -13,6 +13,10 @@ jQuery(document).ready(function() {
             // disable submit empty rate
             return false;
         }
+        var notifyManager = jQuery('.switch input#notify_manager').is(':checked');
+        if (notifyManager && jQuery(this).hasClass('inactive')) {
+            return false;
+        }
     });
 
     jQuery('input[type="file"]').on('change', function() {
@@ -43,10 +47,11 @@ jQuery(document).ready(function() {
     });
 
     jQuery('.switch input').on('change', function(){
-        if(this.checked)
+        if (this.checked)
             jQuery('.if-notify').show();
         else
             jQuery('.if-notify').hide();
+        jQuery('.if-notify .input-wrap input').first().trigger('change');
     });
 
     jQuery('.close-file').on('click touchend', function(){
@@ -56,6 +61,22 @@ jQuery(document).ready(function() {
     jQuery('input[name="rate"]').on('change', function(){
         var rate = parseInt(jQuery(this).val());
         updateQuestionDiv(rate);
+    });
+
+    jQuery('.if-notify .input-wrap input').on('change', function() {
+        var notifyManager = jQuery('.switch input#notify_manager').is(':checked');
+        var $button = jQuery('button[name=submit_vote]');
+        if (notifyManager) {
+            var name = jQuery('.if-notify .input-wrap input[name=user_name]').val().trim();
+            var info = jQuery('.if-notify .input-wrap input[name=user_info]').val().trim();
+            if (name > '' && info> '') {
+                $button.removeClass('inactive');
+            } else {
+                $button.addClass('inactive');
+            }
+        } else {
+            $button.removeClass('inactive');
+        }
     });
 
     statsPosition();
@@ -133,5 +154,8 @@ function updateQuestionDiv(rate) {
         }
     } else {
         $div.hide();
+    }
+    if (rate && rate>0) {
+        jQuery('.btn-block .btn-custom').removeClass('inactive');
     }
 }
