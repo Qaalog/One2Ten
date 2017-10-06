@@ -91,7 +91,8 @@ label.number-radio {cursor: pointer}
   font-weight: bold;
   background: #93c47d;
 }
-.tag-wrap { display: inline-block; }
+.step-tags-inner { text-align: center; }
+.tag-wrap { display: inline-block; margin-bottom: 5px; }
 .tag-wrap .tag-radio {
   border: 1px solid #000;
   padding: 5px 15px;
@@ -108,7 +109,7 @@ label.number-radio {cursor: pointer}
 .btn-block .btn-block-inner { display: table-row; }
 .btn-block .btn-custom {
   display: table-cell;
-  padding: 12px 20px;
+  padding: 12px;
 }
 .btn-custom {
 	display: block;
@@ -130,7 +131,9 @@ label.number-radio {cursor: pointer}
 	cursor: pointer;
 }
 .btn-custom.inactive {
-  background: #96c580;
+  color: #d9d9d9;
+  background: #f3f3f3;
+  border-color: #d9d9d9;
 }
 .no-touch .btn-custom:hover,
 .btn-custom.disabled {background: #93c47d}
@@ -394,7 +397,7 @@ textarea.input {
     height: 75px;
   }
   h3 {font-size: 18px}
-  .btn-custom {margin: 20px 0}
+  .btn-custom { font-size: 5vw; margin: 20px 0; }
 }
 
 label.number-radio.tag-radio {

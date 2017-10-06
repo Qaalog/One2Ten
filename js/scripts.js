@@ -81,7 +81,19 @@ jQuery(document).ready(function() {
 
     statsPosition();
     updateQuestionDiv(0);
+
+    jQuery('.step-tags .tag-wrap').wrapMatch(2, 'step-tags-inner');
 });
+
+(function($){
+  $.fn.wrapMatch = function(count, className) {
+    var length = this.length;
+    for(var i = 0; i < length ; i+=count) {
+      this.slice(i, i+count).wrapAll('<div '+((typeof className == 'string')?'class="'+className+'"':'')+'/>');
+    }
+    return this;
+  };
+})(jQuery);
 
 function voteImageIsLoaded(e) {
     var image = new Image();
