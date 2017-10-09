@@ -97,6 +97,7 @@ label.number-radio {cursor: pointer}
   border: 1px solid #000;
   padding: 5px 15px;
 }
+.tag-wrap input[type=radio] { visibility: hidden; }
 .tag-wrap .tag-radio:hover,
 .tag-wrap input:checked + label {
   border-color: #38761d;
