@@ -155,12 +155,15 @@ function updateQuestionDiv(rate) {
     if (rate && rate>0 && $tags.length && (positiveRate || negativeRate)) {
         $div.find('h3').hide();
         if (positiveRate && rate >= positiveRate) {
+            $div.find('input[name=question_type]').val('positive');
             $div.find('h3.positive').show();
             $div.show();
         } else if (negativeRate && rate <= negativeRate) {
+            $div.find('input[name=question_type]').val('negative');
             $div.find('h3.negative').show();
             $div.show();
         } else {
+            $div.find('input[name=question_type]').val('');
             $div.hide();
             $tags.val('');
         }
