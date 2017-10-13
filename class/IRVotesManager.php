@@ -216,18 +216,18 @@ class IRVotesManager {
         if ( ($markInformIfBelow && $rate <= $markInformIfBelow) || $rateRow['notify_manager'] == 1) {
 
             // send email
-            $text = "<div style='max-width:240px'>"
-                      . "<b>'{$vote['name']}'</b> was rated <b>{$rate}</b><br/>"
-                      . "<br/>"
-                      . "{$rateRow['message']}<br/>"
-                      . (($rateRow['media_data'] > '') ? '<table width="100%" style="width:240px"><tr><td><img style="max-width:100%;height:auto" src="cid:attached_place" /></td></tr></table>': '')
-                      . "<br/>"
-                      . implode('<br/>', explode(';', $rateRow['user_info']))
-                      . "<br/>"
-                      . "<br/>"
-                      . "Thank you,<br/>"
-                      . "Review10 Support<br/>"
-                  . "</div>";
+            $text = "<b>'{$vote['name']}'</b> was rated <b>{$rate}</b><br/>"
+                  . "<br/>"
+                  . "{$rateRow['message']}<br/>"
+                  . "<div style='max-width:420px; margin: 0 auto;'>"
+                  . (($rateRow['media_data'] > '') ? '<table cellspacing="0" cellpadding="0" align="left" width="100%" border="0"><tr><td style="padding:0;"><img style="border-width:0;max-width:420px;height:auto;width:100%;" src="cid:attached_place" /></td></tr></table>': '')
+                  . "</div>"
+                  . "<br style='clear:both;' />"
+                  . implode('<br/>', explode(';', $rateRow['user_info']))
+                  . "<br/>"
+                  . "<br/>"
+                  . "Thank you,<br/>"
+                  . "Review10 Support<br/>";
             $params = array(
                 'email' => $vote['vote_config']['manager_email'],
                 'text'  => $text,

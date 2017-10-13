@@ -63,7 +63,7 @@ jQuery(document).ready(function() {
         updateQuestionDiv(rate);
     });
 
-    jQuery('.if-notify .input-wrap input').on('change', function() {
+    jQuery('.if-notify .input-wrap input').on('change keyup', function() {
         var notifyManager = jQuery('.switch input#notify_manager').is(':checked');
         var $button = jQuery('button[name=submit_vote]');
         if (notifyManager) {
