@@ -63,8 +63,8 @@ class IRVotesManager {
                         $userInfo = '';
                         if ($notifyManager) {
                             $userInfo .= isset($_POST['user_name']) ? "Name: {$_POST['user_name']};" : '';
-                            $userInfo .= isset($_POST['user_room']) ? "Room: {$_POST['user_room']};" : '';
                             $userInfo .= isset($_POST['user_info']) ? "Contact: {$_POST['user_info']};" : '';
+                            $userInfo .= isset($_POST['user_room']) ? "Info: {$_POST['user_room']};" : '';
                         }
 
                         $data = array(
@@ -216,15 +216,22 @@ class IRVotesManager {
         if ( ($markInformIfBelow && $rate <= $markInformIfBelow) || $rateRow['notify_manager'] == 1) {
 
             // send email
-            $text = "The place '{$vote['name']}' was rated by user on One2Ten<br/><br/>"
-                  . " User rate:<br/>"
-                  . "  - rate: {$rate}<br/>"
-                  . "  - message: {$rateRow['message']}<br/>"
-                  . " User info: {$rateRow['user_info']}<br/>";
+            $text = "<div style='max-width:240px'>"
+                      . "<b>'{$vote['name']}'</b> was rated <b>{$rate}</b><br/>"
+                      . "<br/>"
+                      . "{$rateRow['message']}<br/>"
+                      . (($rateRow['media_data'] > '') ? '<table width="100%" style="width:240px"><tr><td><img style="max-width:100%;height:auto" src="cid:attached_place" /></td></tr></table>': '')
+                      . "<br/>"
+                      . implode('<br/>', explode(';', $rateRow['user_info']))
+                      . "<br/>"
+                      . "<br/>"
+                      . "Thank you,<br/>"
+                      . "Review10 Support<br/>"
+                  . "</div>";
             $params = array(
                 'email' => $vote['vote_config']['manager_email'],
                 'text'  => $text,
-                'subject' => $vote['name'].' - review notification',
+                'subject' => 'New user review',
             );
             if ($rateRow['media_data'] > '') {
                 //$text .= "<img src='{$rateRow['media_data']}' />";
@@ -283,7 +290,7 @@ class IRVotesManager {
             }
 
             if (isset($params['embed_file'])) {
-                $mail->addAttachment($params['embed_file']['path'], $params['embed_file']['name']);
+                $mail->addEmbeddedImage($params['embed_file']['path'], 'attached_place', $params['embed_file']['name']);
             }
 
             $mail->WordWrap = 50;                                 // set word wrap to 50 characters

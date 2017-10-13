@@ -20,9 +20,9 @@ $config = array(
     'ga_company_id'  => empty($envGaCompanyId) ? 'UA-101739744-1' : $envGaCompanyId,
     //
     'mail' => array(
-        'from' => 'noreply@one2ten.net',
-        'fromName' => 'noreply',
-        'subject' => 'smtp.gmail.com',
+        'from' => 'support@review10.net',
+        'fromName' => 'Review10',
+        'subject' => 'New user review',
         'smtp' => array(
 //            'hostname' => 'smtp.gmail.com',
 //            'port'      => '587',
@@ -30,10 +30,10 @@ $config = array(
 //            'password' => 'L!!3v3r4g3',
             'hostname' => 'smtp.sendgrid.net',
             'port'     => '25',
-            'username' => 'azure_6ec966c95ca3098f1b90099cc7225c0e@azure.com',
-            'password' => 'L##3v3r4g3',
+            'username' => 'azure_a6cdaf5e3b668181c0a8d8b572f2ecab@azure.com',
+            'password' => 'L%%3v3r4g3',
         ),
-        'admin-mail' => 'o.v.lukashov@gmail.com',
+//        'admin-mail' => 'olukashov@itera-research.com',
     ),
 );
 
