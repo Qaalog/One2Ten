@@ -294,8 +294,9 @@
           </div>
         </header>
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="post">
             <input type="hidden" name="nounce" value="<?php echo $nounce; ?>" />
+            <input type="hidden" name="media_data" />
 
             <div class="step-first">            
                 <div class="row">
@@ -390,7 +391,7 @@
                     <div class="input-wrap">
                         <textarea class="input" name="message" placeholder="Add a personal note"></textarea>
 
-                        <input id="media_file" class="btn-upload" name="media_file" type="file" accept="image/*" capture />
+                        <input id="media_file" class="btn-upload" type="file" accept="image/*" capture />
                         <label for="media_file">Choose a file</label>
                     </div>
                     <div class="file-wrap">

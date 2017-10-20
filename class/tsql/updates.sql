@@ -6,7 +6,7 @@ ALTER TABLE [dbo].[Vote_User_Config]
    ADD [Owner_Login] [nvarchar](60) NULL;
 
 
-/* 25.09.2017 */
+/* 25.09.2017 - 17.10.2017 */
 ALTER TABLE [dbo].[Vote_Object]
    ADD [Tag_Words] [nvarchar](127) NULL;
 

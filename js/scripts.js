@@ -54,7 +54,9 @@ jQuery(document).ready(function() {
         jQuery('.if-notify .input-wrap input').first().trigger('change');
     });
 
-    jQuery('.close-file').on('click touchend', function(){
+    jQuery('.close-file').on('click touchend', function() {
+        jQuery('input[type="file"]').val('');
+        jQuery('input[name="media_data"]').val('');
         jQuery(this).closest('.file-wrap').find('img').hide();
     });
 
@@ -96,14 +98,48 @@ jQuery(document).ready(function() {
 })(jQuery);
 
 function voteImageIsLoaded(e) {
+//    var image = new Image();
+//    var canvas = document.createElement('canvas');
+//    image.src = e.target.result;
+//    image.onload = function() {
+//        $imageWrap = e.target.imageWrap;
+//        //$imageWrap.find('div.no-image').hide();
+//        var imageElement = $imageWrap;
+//        imageElement.attr('src', e.target.result).show();
+//    };
+
+    $imageWrap = e.target.imageWrap;
     var image = new Image();
-    image.src = e.target.result;
     image.onload = function() {
-        $imageWrap = e.target.imageWrap;
+        var canvas = document.createElement('canvas');
+
+        var MAX_WIDTH = 800;
+        var MAX_HEIGHT = 600;
+        var width = image.width;
+        var height = image.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, width, height);
+        var dataurl = canvas.toDataURL("image/png");
+
         //$imageWrap.find('div.no-image').hide();
-        var imageElement = $imageWrap;
-        imageElement.attr('src', e.target.result).show();
+        $imageWrap.attr('src', dataurl).show();
+        jQuery('input[name="media_data"]').val(dataurl);
     };
+    image.src = e.target.result;
 }
 
 function statsPosition() {

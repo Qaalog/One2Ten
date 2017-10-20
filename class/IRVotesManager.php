@@ -76,6 +76,9 @@ class IRVotesManager {
                             'user_id' => $this->_sessionId,
                             'tag' => $tag,
                         );
+                        if (isset($_POST['media_data']) && $_POST['media_data'] > '') {
+                            $data['media_data'] = $_POST['media_data'];
+                        }
                         if (is_uploaded_file($_FILES['media_file']['tmp_name'])) {
                             //copy($_FILES['media_file']['tmp_name'], 'd:/test1.jpeg');
                             $check = getimagesize($_FILES["media_file"]["tmp_name"]);
@@ -200,10 +203,16 @@ class IRVotesManager {
                 ),
             );
             if ($rateRow['media_data'] > '') {
+                $imageData = explode(';base64,', $rateRow['media_data']);
+                $imageMime = explode(':', $imageData[0])[1];
                 $params['media_data'] = array(
-                    'content' => $this->_rateImageData,
-                    'mime_type' => $this->_rateImageType,
+                    'content' => $imageData[1],
+                    'mime_type' => $imageMime,
                 );
+//                $params['media_data'] = array(
+//                    'content' => $this->_rateImageData,
+//                    'mime_type' => $this->_rateImageType,
+//                );
             }
             //var_dump($params);die();
             if ( $result = $webService->sendData('put', $url, $params) ) {
@@ -234,11 +243,16 @@ class IRVotesManager {
                 'subject' => 'New user review',
             );
             if ($rateRow['media_data'] > '') {
-                //$text .= "<img src='{$rateRow['media_data']}' />";
-                $params['embed_file'] = array(
-                    'name' => $this->_rateImage['name'],
-                    'path' => $this->_rateImage['tmp_name'],
-                );
+                $imageData = explode(';base64,', $rateRow['media_data']);
+                $imageMime = explode(':', $imageData[0])[1];
+                if ($image = imagecreatefromstring( base64_decode($imageData[1])  )) {
+                    $tempFile = tempnam(sys_get_temp_dir(), 'imageFile');
+                    imagejpeg($image, $tempFile);
+                    $params['embed_file'] = array(
+                        'name' => 'embed.jpeg',
+                        'path' => $tempFile,
+                    );
+                }
             }
             if ( $result = $this->sendMail($params) ) {
                 // 'Send mail executed';
