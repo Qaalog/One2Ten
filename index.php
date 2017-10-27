@@ -405,6 +405,7 @@
                         <label for="notify_manager" class="slider"></label>
                     </div>
                     <span class="inlined">Notify the manager</span>
+                    <span id="rotate" class="glyphicon glyphicon-refresh pull-right hidden" style="color: #cccccc;"></span>
                 </div>
                 <div class="if-notify">
                     <div class="input-wrap">

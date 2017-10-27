@@ -181,7 +181,7 @@ textarea.input {
 	-moz-box-shadow: 0 0 5px 1px #aede98;
 	-webkit-box-shadow: 0 0 5px 1px #aede98;
 }
-.switcher {margin: 0 0 10px}
+.switcher {margin: 10px 0 10px}
 .switcher span {
 	font-size: 18px;
 	line-height: 24px;

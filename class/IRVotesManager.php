@@ -228,8 +228,8 @@ class IRVotesManager {
             $text = "<b>'{$vote['name']}'</b> was rated <b>{$rate}</b><br/>"
                   . "<br/>"
                   . "{$rateRow['message']}<br/>"
-                  . "<div style='max-width:420px; margin: 0 auto;'>"
-                  . (($rateRow['media_data'] > '') ? '<table cellspacing="0" cellpadding="0" align="left" width="100%" border="0"><tr><td style="padding:0;"><img style="border-width:0;max-width:420px;height:auto;width:100%;" src="cid:attached_place" /></td></tr></table>': '')
+                  . '<div style="max-width:320px;;max-height:640px;">'
+                  . (($rateRow['media_data'] > '') ? '<img style="width: 320px;height:auto;" src="cid:attached_place"/>': '')
                   . "</div>"
                   . "<br style='clear:both;' />"
                   . implode('<br/>', explode(';', $rateRow['user_info']))

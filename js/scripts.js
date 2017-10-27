@@ -58,6 +58,7 @@ jQuery(document).ready(function() {
         jQuery('input[type="file"]').val('');
         jQuery('input[name="media_data"]').val('');
         jQuery(this).closest('.file-wrap').find('img').hide();
+        jQuery('#rotate').addClass('hidden');
     });
 
     jQuery('input[name="rate"]').on('change', function(){
@@ -81,6 +82,10 @@ jQuery(document).ready(function() {
         }
     });
 
+    jQuery('#rotate').on('click touchend',function () {
+       rotate();
+       return false;
+    });
     statsPosition();
     updateQuestionDiv(0);
 
@@ -107,7 +112,6 @@ function voteImageIsLoaded(e) {
 //        var imageElement = $imageWrap;
 //        imageElement.attr('src', e.target.result).show();
 //    };
-
     $imageWrap = e.target.imageWrap;
     var image = new Image();
     image.onload = function() {
@@ -138,8 +142,10 @@ function voteImageIsLoaded(e) {
         //$imageWrap.find('div.no-image').hide();
         $imageWrap.attr('src', dataurl).show();
         jQuery('input[name="media_data"]').val(dataurl);
+        jQuery('#rotate').removeClass('hidden');
     };
     image.src = e.target.result;
+
 }
 
 function statsPosition() {
@@ -209,4 +215,22 @@ function updateQuestionDiv(rate) {
     if (rate && rate>0) {
         jQuery('.btn-block .btn-custom').removeClass('inactive');
     }
+}
+
+function rotate(){
+    var image = new Image();
+    var imageWrap = jQuery('.media-file-preview');
+    image.onload = function() {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext("2d");
+        canvas.width = image.height;
+        canvas.height = image.width;
+        ctx.translate(canvas.width,0);
+        ctx.rotate(90*Math.PI/180);
+        ctx.drawImage(image, 0, 0, canvas.height, canvas.width);
+        var dataurl = canvas.toDataURL("image/png");
+        imageWrap.attr('src', dataurl);
+        jQuery('input[name="media_data"]').val(dataurl);
+    };
+    image.src = imageWrap.attr('src');
 }
