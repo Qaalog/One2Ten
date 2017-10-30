@@ -395,7 +395,8 @@
                         <label for="media_file">Choose a file</label>
                     </div>
                     <div class="file-wrap">
-                        <span class="close-file"></span>
+                        <span id="rotate" class="rotate hidden"></span>
+                        <span class="close-file pull-right"></span>
                         <img class="media-file-preview" style="display: none" />
                     </div>
                 </div>
@@ -405,7 +406,6 @@
                         <label for="notify_manager" class="slider"></label>
                     </div>
                     <span class="inlined">Notify the manager</span>
-                    <span id="rotate" class="glyphicon glyphicon-refresh pull-right hidden" style="color: #cccccc;"></span>
                 </div>
                 <div class="if-notify">
                     <div class="input-wrap">

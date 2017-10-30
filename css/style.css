@@ -267,7 +267,7 @@ textarea.input {
   max-height: 400px;
   max-width: 100%;
 }
-.close-file {
+.close-file,.rotate{
   position: absolute;
   right: 0;
   top: 0;
@@ -278,7 +278,12 @@ textarea.input {
   background-size: 100% auto;
   cursor: pointer;
 }
-.no-touch .close-file:hover {opacity: 1}
+.rotate {
+    right: 35px;
+    background: #fff url(../images/icon-rotate.png) no-repeat 50% 50%;
+    background-size: 100% auto;
+}
+.no-touch .close-file:hover,.rotate:hover {opacity: 1}
 
 .rate-result {
   position: relative;
