@@ -409,15 +409,12 @@
                 </div>
                 <div class="if-notify">
                     <div class="input-wrap">
-                        <input class="input" name="user_name" placeholder="*Name" />
+                        <input class="input" name="user_name" placeholder="*Your Name" />
                     </div>
                     <div class="input-wrap">
-                        <input class="input" name="user_info" placeholder="*Phone or Email" />
+                        <input class="input" name="user_info" placeholder="*Your Phone / Email" />
                     </div>
-                    <div class="input-wrap">
-                        <input class="input" name="user_room" placeholder="Customer nr / Room nr (optional)" />
-                    </div>
-                </div>                
+                </div>
                 <button name="submit_vote" class="btn-custom">Finish</button>
             </div>
         </form>
