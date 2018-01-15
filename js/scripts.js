@@ -118,7 +118,7 @@ function voteImageIsLoaded(e) {
         var canvas = document.createElement('canvas');
 
         var MAX_WIDTH = 800;
-        var MAX_HEIGHT = 600;
+        var MAX_HEIGHT = 800;
         var width = image.width;
         var height = image.height;
 

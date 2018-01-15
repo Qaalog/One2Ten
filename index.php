@@ -177,6 +177,9 @@
         <?php endif; ?>
 
         <!-- <button class="btn-custom">Close</button> -->
+        <div class="text-center">
+            <a href="www.review10.net">Get Review10 for your business</a>
+        </div>
 
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
