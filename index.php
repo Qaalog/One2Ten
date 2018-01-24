@@ -178,7 +178,8 @@
 
         <!-- <button class="btn-custom">Close</button> -->
         <div class="text-center">
-            <a href="www.review10.net">Get Review10 for your business</a>
+            <br/><br/><br/>
+            <a href="//www.review10.net">Get Review10 for your business</a>
         </div>
 
         <script>
